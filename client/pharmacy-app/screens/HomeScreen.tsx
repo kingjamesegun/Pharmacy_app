@@ -1,11 +1,25 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, SafeAreaView, Text } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
   return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
+    <SafeAreaView>
+      <Text
+      // style={{
+      //   color: "red",
+      // }}
+      >
+        Onboarding Screen
+      </Text>
+    </SafeAreaView>
   );
 };
 
