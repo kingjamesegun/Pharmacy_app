@@ -23,7 +23,7 @@ const LoginScreen: React.FC<Item> = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
-  const val = useContext(AuthContext);
+  const { register } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -67,7 +67,12 @@ const LoginScreen: React.FC<Item> = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            register(name, email, password);
+          }}
+        >
           <Text>Register</Text>
         </TouchableOpacity>
         <View style={{ flexDirection: "row", marginTop: 20 }}>
