@@ -35,14 +35,6 @@ const ProductSchema = new mongoose.Schema({
         required: true,
         type: Number,
     },
-    material:{
-        type: String,
-        required: [true, "please provide product's material"],
-    },
-    finishing:{
-        type: String,
-        required: [true, "please provide product's finishing"],
-    },
     delivery:{
         required: true,
         type: String,
@@ -50,6 +42,8 @@ const ProductSchema = new mongoose.Schema({
     tax:{
         type: Number,
         required: true
+    },
+    discount:{
     },
     createdBy:{
         type: mongoose.Types.ObjectId,

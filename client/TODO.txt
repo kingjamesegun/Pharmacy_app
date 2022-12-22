@@ -1,1 +1,1 @@
-Authentication and User
+Users should be able to book  appointments with pharmacists
