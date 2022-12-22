@@ -6,6 +6,6 @@ const {showCurrentUser, getAllUsers, updateUser, AddUserImage} = require("../con
 router.get("/showMe", authenticationMiddleware, showCurrentUser)
 router.patch("/updateMe", authenticationMiddleware, updateUser)
 router.get("/", authenticationMiddleware, authorizePermission("admin"), getAllUsers)
-router.post("/add-image", authenticationMiddleware, AddUserImage)
+router.patch("/add-image", authenticationMiddleware, AddUserImage)
 
 module.exports = router;

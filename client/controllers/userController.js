@@ -29,7 +29,7 @@ const updateUser = async (req, res) => {
 
 const showCurrentUser = async(req, res) => {
     const user = await User.findById(req.user.userId)
-    res.status(200).json({user: req.user, picture: user.picture.public_id})
+    res.status(200).json({user: req.user, picture: user.picture.url})
 }
 
 
