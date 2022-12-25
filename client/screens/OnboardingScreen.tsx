@@ -15,12 +15,12 @@ const OnboardingScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("./assets/onboarding-bg.png")}
+        source={require("../assets/onboarding-bg.png")}
         style={styles.bg}
       >
-        <Image source={require("./assets/logo.png")} style={styles.logo} />
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
         <Image
-          source={require("./assets/onboarding-svg.png")}
+          source={require("../assets/onboarding-svg.png")}
           style={styles.svg}
         />
         <Text style={styles.text}>

@@ -10,7 +10,7 @@ import { AuthProvider } from "./context/AuthProvider";
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+export default function App() {
   return (
     <AuthProvider>
       <NavigationContainer>
@@ -40,5 +40,3 @@ function App() {
     </AuthProvider>
   );
 }
-
-export default App;

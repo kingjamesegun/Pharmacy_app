@@ -1,10 +1,21 @@
+import axios from "axios";
 import React, { createContext } from "react";
 import { BASE_URL } from "../config";
 
-export const AuthContext = createContext();
+type RegisterProps = {
+  name: string;
+  email: string;
+  password: string;
+};
 
-export const AuthProvider = ({ children }) => {
-  const register = (name, email, password) => {
+type ChildrenProps = {
+  children: JSX.Element;
+};
+
+export const AuthContext = createContext("");
+
+export const AuthProvider = ({ children }: ChildrenProps) => {
+  const register = ({ name, email, password }: RegisterProps) => {
     axios
       .post(`$BASE_URL/register`, {
         name,

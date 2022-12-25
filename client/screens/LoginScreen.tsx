@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FunctionComponent } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthProvider";
 
@@ -16,11 +16,11 @@ interface Item {
   password: string;
 }
 
-const LoginScreen: React.FC<Item> = () => {
+const LoginScreen: FunctionComponent = () => {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const val = useContext(AuthContext);
 
   return (
@@ -37,7 +37,7 @@ const LoginScreen: React.FC<Item> = () => {
             <TextInput
               placeholder="E-mail"
               keyboardType="default"
-              value="{email}"
+              value={email}
               onChangeText={(text) => setEmail(text)}
               style={styles.input}
             />
@@ -48,18 +48,11 @@ const LoginScreen: React.FC<Item> = () => {
               placeholder="password"
               keyboardType="default"
               secureTextEntry
-              value="{email}"
+              value={password}
               onChangeText={(text) => setPassword(text)}
               style={styles.input}
             />
           </View>
-          {/* <View >
-            <UserIcon size={20} color="gray"/>
-            <TextInput 
-              placeholder='E-mail'
-              keyboardType='default'
-            />
-          </View> */}
         </View>
 
         <TouchableOpacity style={styles.btn}>
@@ -69,7 +62,7 @@ const LoginScreen: React.FC<Item> = () => {
           <Text>Don't have an account? </Text>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => navigation.navigate()}
           >
             <Text>Register</Text>
           </TouchableOpacity>

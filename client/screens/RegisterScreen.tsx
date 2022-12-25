@@ -1,32 +1,34 @@
 import {
   Image,
   ImageBackground,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FunctionComponent } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthProvider";
 
-interface Item {
+interface Props {
   email: string;
   password: string;
   name: string;
 }
 
-const LoginScreen: React.FC<Item> = () => {
+const RegisterScreen: FunctionComponent<Props> = () => {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [name, setName] = useState(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const { register } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
+      {/* <StatusBar style="light" /> */}
       <ImageBackground
         source={require("./assets/onboarding-bg.png")}
         style={styles.bg}
@@ -49,7 +51,7 @@ const LoginScreen: React.FC<Item> = () => {
             <TextInput
               placeholder="E-mail"
               keyboardType="default"
-              value="{email}"
+              value={email}
               onChangeText={(text) => setEmail(text)}
               style={styles.input}
             />
@@ -60,7 +62,7 @@ const LoginScreen: React.FC<Item> = () => {
               placeholder="password"
               keyboardType="default"
               secureTextEntry
-              value="{email}"
+              value={password}
               onChangeText={(text) => setPassword(text)}
               style={styles.input}
             />
@@ -79,7 +81,7 @@ const LoginScreen: React.FC<Item> = () => {
           <Text>Don't have an account? </Text>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate()}
           >
             <Text>Login</Text>
           </TouchableOpacity>
@@ -89,7 +91,7 @@ const LoginScreen: React.FC<Item> = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {

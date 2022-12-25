@@ -1,28 +1,22 @@
-import { StyleSheet, SafeAreaView, Text } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+// import { StyleSheet, SafeAreaView, Text } from "react-native";
+// import React, { useEffect, useLayoutEffect, useState } from "react";
+// import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+// const HomeScreen = () => {
+//   const navigation = useNavigation();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-  return (
-    <SafeAreaView>
-      <Text
-      // style={{
-      //   color: "red",
-      // }}
-      >
-        Onboarding Screen
-      </Text>
-    </SafeAreaView>
-  );
-};
+//   useLayoutEffect(() => {
+//     navigation.setOptions({
+//       headerShown: false,
+//     });
+//   }, []);
+//   return (
+//     <SafeAreaView>
+//       <Text>Onboarding Screen</Text>
+//     </SafeAreaView>
+//   );
+// };
 
-export default HomeScreen;
+// export default HomeScreen;
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});
