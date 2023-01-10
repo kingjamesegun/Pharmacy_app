@@ -1,7 +1,7 @@
 const  express = require("express")
 const router = express.Router()
 const {authenticationMiddleware, authorizePermission} = require("../middlewares/authentication")
-const {getAllProducts, getSingleProduct, createProduct, updateProduct, deleteProduct} = require("../controllers/productControllers")
+const {getAllProducts, getSingleProduct, createProduct, updateProduct, deleteProduct} = require("../controllers/drugsControllers")
 
 router.route("/")
 .get(getAllProducts)

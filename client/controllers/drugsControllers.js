@@ -1,10 +1,10 @@
-const Product = require("../models/product")
+const Drug = require("../models/drugs")
 const CustomError = require("../errors");
 const utils = require("../utils");
 
 
-const createProduct = async(req, res, next) => {
-    const {name, price, description, material, finishing, delivery, quantity, tax} = req.fields;
+const createDrug = async(req, res, next) => {
+    const {name, price, description, discount, category, delivery, quantity, tax} = req.fields;
     let images = [];
     if (req.files.image.length > 1){
         for(const image of req.files.image){
@@ -40,66 +40,66 @@ const createProduct = async(req, res, next) => {
         images = [...images, singleImage];
     };
      
-    const product = await Product.create({
-        name, price, description, material, finishing, delivery, quantity, tax,
+    const Drug = await Drug.create({
+        name, price, description, category, discount, delivery, quantity, tax,
         image: images,
         createdBy: req.user.userId,
     });
-    res.status(201).json({product})
+    res.status(201).json({Drug})
 }
 
 
-const getAllProducts = async(req, res) => {
+const getAllDrugs = async(req, res) => {
     const page = req.query.pageNumber || 1;
     const limit = req.query.pageLimit || 12;
+    const {category} = req.query;
 
     const skip = (page - 1) * limit;
-    const whole = Math.floor((await Product.find({})).length / limit);
-    const pages = (((await Product.find({})).length % limit) === 0);
+    const whole = Math.floor((await Drug.find({category})).length / limit);
+    const pages = (((await Drug.find({category})).length % limit) === 0);
     const totalPages = pages ? whole: whole + 1;
 
     
-    const products = await  Product.find({}).skip(skip).limit(limit);
+    const drugs = await  Drug.find({category}).skip(skip).limit(limit);
     
     const range = {
         limit,
         totalPages, 
-        count: products.length,
+        count: drugs.length,
         skip,
         pageNumber: page
     }
-    res.status(200).json({range, products, nbHits: products.length})
+    res.status(200).json({range, drugs, nbHits: drugs.length})
 }
 
-const getSingleProduct = async(req, res) => {
-    const {id: productId} = req.params;
-    const product = await Product.findOne({_id: productId})
-    if (!product){
-        throw new CustomError.NotFoundError(`No product with id: ${productId}`);
+const getSingleDrug = async(req, res) => {
+    const {id: drugId} = req.params;
+    const Drug = await Drug.findOne({_id: drugId})
+    if (!Drug){
+        throw new CustomError.NotFoundError(`No Drug with id: ${drugId}`);
     }
-    res.status(200).json({product});
+    res.status(200).json({Drug});
 }
 
-const deleteProduct = async(req, res) => {
-    const {id: productId} = req.params;
-    await Product.findByIdAndDelete(productId)
+const deleteDrug = async(req, res) => {
+    const {id: drugId} = req.params;
+    await Drug.findByIdAndDelete(drugId)
     res.status(200).json({msg: "Successful"})
 }
 
-const updateProduct = async(req, res) => {
-    const {id: productId} = req.params;
-    const product = await Product.findByIdAndUpdate(productId, req.body, {new: true, runValidators: true});
-    if(!product){
-        throw new CustomError.NotFoundError(`No product with id: ${productId}`);
+const updateDrug = async(req, res) => {
+    const {id: drugId} = req.params;
+    const Drug = await Drug.findByIdAndUpdate(drugId, req.body, {new: true, runValidators: true});
+    if(!Drug){
+        throw new CustomError.NotFoundError(`No Drug with id: ${drugId}`);
     }
-    res.status(200).json({product})
+    res.status(200).json({Drug})
 }
 
 module.exports = {
-    createProduct,
-    getAllProducts,
-    getSingleProduct,
-
-    updateProduct,
-    deleteProduct,
+    createDrug,
+    getAllDrugs,
+    getSingleDrug,
+    updateDrug,
+    deleteDrug,
 }

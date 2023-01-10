@@ -44,6 +44,8 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     discount:{
+        type: Number,
+        required: true
     },
     createdBy:{
         type: mongoose.Types.ObjectId,

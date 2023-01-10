@@ -1,6 +1,6 @@
 const Order = require("../models/order")
 const Request = require("../models/request")
-const Product = require("../models/product")
+const Product = require("../models/drugs")
 const Track = require("../models/track")
 const CustomError = require("../errors")
 const utils = require("../utils")
