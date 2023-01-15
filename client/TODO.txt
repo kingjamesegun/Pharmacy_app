@@ -1,1 +1,3 @@
 Users should be able to book  appointments with pharmacists
+get drugs the user has bought
+use lodash to convert searched categories

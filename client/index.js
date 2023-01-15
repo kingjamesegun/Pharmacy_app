@@ -20,7 +20,7 @@ const ConnectDb = require('./db/connectDb');
 const ErrorHandlerMiddleware = require('./middlewares/errorHandler');
 const authRouter = require('./routes/authroutes');
 const userRouter = require('./routes/userRoutes');
-const productRouter = require('./routes/drugsRoutes');
+const drugRouter = require('./routes/drugsRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
 const ordersRouter = require('./routes/orderRoutes');
 const trackRouter = require('./routes/trackRoute');
@@ -41,7 +41,7 @@ app.use(
 //  routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/product', productRouter);
+app.use('/api/v1/drug', drugRouter);
 app.use('/api/v1/payment', paymentRouter);
 app.use('/api/v1/order', ordersRouter);
 app.use('/api/v1/track', trackRouter);

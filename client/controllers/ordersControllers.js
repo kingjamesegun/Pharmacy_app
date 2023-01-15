@@ -1,6 +1,5 @@
 const Order = require("../models/order")
-const Request = require("../models/request")
-const Product = require("../models/drugs")
+const Drug = require("../models/drugs")
 const Track = require("../models/track")
 const CustomError = require("../errors")
 const utils = require("../utils")
@@ -19,61 +18,31 @@ const createOrder = async (req, res) => {
     let orderItems = [];
     let subtotal = 0;
     let tax = 0;
+
     //loop through cartitems
     for(let item of cartItems){
-       const product = await Product.findOne({_id: item.product});
-       if(!product){
-            throw new CustomError.NotFoundError(`No product with id: ${item.product}`)
-       }
-       const request = await Request.findOne({_id: item.request});
-             //check if there is a request or not in single order
-            //if there is a request from the user
-        if(request){
-            //check whether product in request is equal to product cart item quantity also
-            if (request.product.toString() !== item.product || request.quantity !== item.quantity){
-                 throw new CustomError.BadRequestError(`The data in request and cart do not match for product: ${item.product}`);
-            }
-           //then add price to graphic desgn fee
-            let amount = item.price + 5000;
-            //get some items from the product  name, price, image, _id and store in single order schema
-           const {name, tax: taxAmount, image, _id} = product;
-           const singleOrderItem = {
-                name,
-                image,
-                price: item.price,
-                quantity: item.quantity,
-                graphicDesign: 5000,
-                amount,
-                tax: taxAmount,
-                product: _id,
-                request: request._id
-            }
-            orderItems = [...orderItems, singleOrderItem];
-            //increase subtotal
-            subtotal += amount;
-            //increase tax
-            tax += taxAmount;
-        }else{
-        //if there is no request from the user
-            let amount = item.price;
-            const {name, tax:taxAmount, image, _id} = product;
-            const singleOrderItem = {
-                name,
-                image,
-                price: item.price,
-                quantity: item.quantity,
-                amount,
-                customDesign: item.customDesign,
-                tax: taxAmount,
-                product: _id,
-            }
-            orderItems = [...orderItems, singleOrderItem];
-            subtotal += amount;
-            tax += taxAmount;
-       }
+        const drug = await Drug.findOne({_id: item.drug});
+        if(!drug){
+            throw new CustomError.NotFoundError(`No drugs with id: ${item.drug}`)
+        }
+        let disPrice = item.amount - ((item.discount/100) * item.amount)
+        const {name, tax: taxAmount, image, _id} = drug;
+        const singleOrderItem = {
+            name,
+            image,
+            price: item.price,
+            quantity: item.quantity,
+            amount: disPrice,
+            discount: item.discount,
+            tax: taxAmount,
+            drug: _id,
+        }
+        orderItems = [...orderItems, singleOrderItem];
+        subtotal += disPrice;
+        tax += taxAmount;
     }
     const total = subtotal + tax + Number(shippingFee);;
-    const trackNumber = "RC-" + crypto.randomBytes(12).toString("hex");
+    const trackNumber = "PH-" + crypto.randomBytes(12).toString("hex");
     const order = await Order.create({
         shippingFee,
         tax,
@@ -92,15 +61,14 @@ const createOrder = async (req, res) => {
 
     res.status(201).json({order})
 }
+
 const getAllOrders = async (req, res) => {
     const orders = await Order.find({})
-    .populate("orderItems.request");
     res.status(200).json({orders})
 }
 const getSingleOrder = async (req, res) => {
     const {id: orderId} = req.params;
     const order = await Order.findById({_id: orderId})
-    .populate("orderItems.request");
     if (!order) {
         throw new CustomError.NotFoundError("Order does not exist")
     }
@@ -110,8 +78,7 @@ const getSingleOrder = async (req, res) => {
 }
 
 const getCurrentUserOrders = async (req, res) => {
-    const orders = await Order.find({user: req.user.userId})
-    .populate("orderItems.request");
+    const orders = await Order.find({user: req.user.email});
     if(!orders){
         throw new CustomError.NotFoundError("No orders have been created by this user")
     }

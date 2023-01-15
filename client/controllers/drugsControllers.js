@@ -4,51 +4,33 @@ const utils = require("../utils");
 
 
 const createDrug = async(req, res, next) => {
-    const {name, price, description, discount, category, delivery, quantity, tax} = req.fields;
+    const {name, price, description, discount, category, quantity, tax} = req.fields;
     let images = [];
-    if (req.files.image.length > 1){
-        for(const image of req.files.image){
-            const result = await utils.cloudinary.uploader.upload(image.path, {
-                folder: "products",
-                transformation:[{
-                    fetch_format: "png",
-                    height: 256,
-                    width: 256,
-                    crop: "fill"
-                }],
-            });
-            const singleImage = { 
-                        public_id: result.public_id,
-                        url: result.secure_url
-            };
-            images = [...images, singleImage];
-        };
-    }else{
-        const result = await utils.cloudinary.uploader.upload(req.files.image.path, {
-            folder: "products",
-            transformation:[{
-                fetch_format: "png",
-                height: 256,
-                width: 256,
-                crop: "fill"
-            }],
-        });
-        const singleImage = { 
-                    public_id: result.public_id,
-                    url: result.secure_url
-        };
-        images = [...images, singleImage];
+    const result = await utils.cloudinary.uploader.upload(req.files.image.path, {
+        folder: "drugs",
+        transformation:[{
+            fetch_format: "png",
+            height: 256,
+            width: 256,
+            crop: "fill"
+        }],
+    });
+    const singleImage = { 
+                public_id: result.public_id,
+                url: result.secure_url
     };
+    images = [...images, singleImage];
      
-    const Drug = await Drug.create({
-        name, price, description, category, discount, delivery, quantity, tax,
+    const drug = await Drug.create({
+        name, price, description, category, discount, quantity, tax,
         image: images,
         createdBy: req.user.userId,
     });
-    res.status(201).json({Drug})
+    res.status(201).json({drug})
 }
 
 
+//get drugs with categories
 const getAllDrugs = async(req, res) => {
     const page = req.query.pageNumber || 1;
     const limit = req.query.pageLimit || 12;
@@ -74,11 +56,11 @@ const getAllDrugs = async(req, res) => {
 
 const getSingleDrug = async(req, res) => {
     const {id: drugId} = req.params;
-    const Drug = await Drug.findOne({_id: drugId})
-    if (!Drug){
+    const drug = await Drug.findOne({_id: drugId})
+    if (!drug){
         throw new CustomError.NotFoundError(`No Drug with id: ${drugId}`);
     }
-    res.status(200).json({Drug});
+    res.status(200).json({drug});
 }
 
 const deleteDrug = async(req, res) => {
@@ -89,11 +71,11 @@ const deleteDrug = async(req, res) => {
 
 const updateDrug = async(req, res) => {
     const {id: drugId} = req.params;
-    const Drug = await Drug.findByIdAndUpdate(drugId, req.body, {new: true, runValidators: true});
-    if(!Drug){
+    const drug = await Drug.findByIdAndUpdate(drugId, req.body, {new: true, runValidators: true});
+    if(!drug){
         throw new CustomError.NotFoundError(`No Drug with id: ${drugId}`);
     }
-    res.status(200).json({Drug})
+    res.status(200).json({drug})
 }
 
 module.exports = {

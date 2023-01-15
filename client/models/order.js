@@ -21,26 +21,19 @@ const SingleOrderItemSchema = new mongoose.Schema({
     quantity:{
         type: Number, required: true
     },
-    graphicDesign:{
-        type: Number
-    },
     tax:{
+        type: Number, required: true
+    },
+    discount: {
         type: Number, required: true
     },
     amount:{
         type: Number, required: true 
     },
-    customDesign:{
-        type: String
-    },
-    product: {
+    drug: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Product',
+        ref: 'Drug',
         required: true
-   },
-    request:{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Request'
    }
 });
 
@@ -76,7 +69,8 @@ const OrdersSchema = new mongoose.Schema({
         default: "NGN"
     },
     trackId: String,
-},  {
+    },  
+    {
         timestamps: true
     }
 );
