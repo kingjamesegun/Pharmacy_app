@@ -66,7 +66,7 @@ const OrdersSchema = new mongoose.Schema({
     },
     currency:{
         type: String,
-        default: "NGN"
+        default: "USD"
     },
     trackId: String,
     },  
