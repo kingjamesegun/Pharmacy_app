@@ -2,15 +2,21 @@ const Transaction = require("../models/transaction")
 const Order = require("../models/order")
 const CustomError = require("../errors")
 const utils = require("../utils")
-const Flutterwave = require("flutterwave-node-v3")
-// const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY)
+const stripe = require('stripe')(process.env.STRIPESECRETKEY);
+
 
 // redirect url:  https://ecomgig.herokuapp.com/api/v1/payment
 
-//return cancelled or successful, transaction_id query
-//verify transaction
 
-const response =  async (req, res) => {
+module.exports = stripeController;
+
+const createPaymentIntent =  async (req, res) => {
+    const {amount} = req.body;
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount,
+        currency: "usd",
+    })
+    res.status(200).json({clientSecret: paymentIntent.client_secret}) 
 //get status and tx_ref from query
     // const {status, tx_ref, transaction_id} = req.query;
 
@@ -48,4 +54,4 @@ const response =  async (req, res) => {
     // }
 }
 
-module.exports = response;
+module.exports = createPaymentIntent;

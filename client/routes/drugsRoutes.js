@@ -4,10 +4,10 @@ const {authenticationMiddleware, authorizePermission} = require("../middlewares/
 const {getAllDrugs, getSingleDrug, createDrug, updateDrug, deleteDrug} = require("../controllers/drugsControllers")
 
 router.route("/")
-.get(getAllDrugs)
+.get(authenticationMiddleware, getAllDrugs)
 .post(authenticationMiddleware, authorizePermission("admin"),  createDrug);
 router.route("/:id")
-.get(getSingleDrug)
+.get(authenticationMiddleware, getSingleDrug)
 .patch(authenticationMiddleware, authorizePermission("admin"),  updateDrug)
 .delete(authenticationMiddleware, authorizePermission("admin"),  deleteDrug)
 

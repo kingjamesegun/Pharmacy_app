@@ -9,14 +9,14 @@ const attachCookiesToResponse = ({res, user, refreshToken}) => {
     const accessEcommerceJWT = createJWT({payload: {user}})
     const refreshEcommerceJWT = createJWT({payload:{user, refreshToken}})
     
-    const oneDay = 1000 * 24 * 60 * 60;
+    const fifteenDays = 1000 * 24 * 60 * 60 * 15;
     const longerDay = 1000 * 24 * 60 * 60 * 30;
 
     res.cookie("accessApp", accessEcommerceJWT, {
         httpOnly: true,
         signed: true,
         // secure: //process.env.NODE_ENV === "production",
-        expires: new Date(Date.now() + oneDay),
+        expires: new Date(Date.now() + fifteenDays),
     } );
     res.cookie("refreshApp", refreshEcommerceJWT, {
         httpOnly: true,
