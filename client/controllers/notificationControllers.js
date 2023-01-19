@@ -1,19 +1,36 @@
 const Order = require("../models/order")
-const User = require("../models/user")
 const custom = require("../errors")
 const Notification = require("../models/notifications")
 
 
 const createTransNotification = async (req, res) => {
+    const {title, description, amount, status, orderId, transactionId} = req.body;
+    let payload = {user: req.user.userId, email: req.user.email, title, description, currency, orderId, status, amount, transactionId}
 
+    const notif = await Notification.create(payload)
+
+    const order = await Order.findOne({_id: orderId, user: req.user.email})
+    if (!order){
+        throw new custom.NotFoundError("Invalid Order")
+    }
+    order.status = status;
+    await order.save();
+
+    res.status(201).json({notification: notif})
 }
 
-const createOtherNotification = async (req, res) => {
-    
+const createMessageNotification = async (req, res) => {
+    const {title, description} = req.body;
+    let payload = {user: req.user.userId, title, description}
+    const notif = await Notification.create(payload)
+    res.status(201).json({notification: notif})
 }
 
 const createBoolNotification = async (req, res) => {
-    
+    const {title, description} = req.body;
+    let payload = {user: req.user.userId, title, description}
+    const notif = await Notification.create(payload)
+    res.status(201).json({notification: notif})
 }
 
 const getAllNotifications  = async (req, res) => {
@@ -38,7 +55,7 @@ const deleteNotification = async (req, res) => {
 
 module.exports = {
     createBoolNotification,
-    createOtherNotification,
+    createMessageNotification,
     createTransNotification,
     getAllNotifications,
     getSingleNotification,

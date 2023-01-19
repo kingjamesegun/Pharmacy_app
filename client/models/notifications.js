@@ -5,7 +5,7 @@ const NotificationSchema = new mongoose.Schema({
         type: String
     },
     description: {
-        type: String 
+        type: String
     },
     amount:{
         type: Number
@@ -19,6 +19,13 @@ const NotificationSchema = new mongoose.Schema({
     orderId:{
         type: mongoose.Types.ObjectId,
         ref: "Order"
+    },
+    transactionId: {
+        type: String,
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'failed', 'paid', 'delivered', 'cancelled']
     },
     user: {
         type: mongoose.Types.ObjectId,

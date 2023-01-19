@@ -130,7 +130,6 @@ const VerifyToken = async (req, res) => {
     } else{
         throw new CustomError.UnAuthenticatedError("Invalid token")
     }
-
 }
 
 const ForgotPassword = async (req, res) => {
