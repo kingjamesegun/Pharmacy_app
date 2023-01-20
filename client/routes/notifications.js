@@ -4,7 +4,7 @@ const {authenticationMiddleware, authorizePermission} = require("../middlewares/
 const {createBoolNotification, createMessageNotification, createTransNotification, getAllNotifications,
     getSingleNotification, deleteNotification} = require("../controllers/notificationControllers")
 
-router.post("/others", authenticationMiddleware, createMessageNotification)
+router.post("/messages", authenticationMiddleware, createMessageNotification)
 router.post("/logic", authenticationMiddleware, createBoolNotification)
 router.post("/transaction", authenticationMiddleware, createTransNotification)
 router.get("/", authenticationMiddleware, getAllNotifications)

@@ -46,7 +46,7 @@ app.use('/api/v1/drug', drugRouter);
 app.use('/api/v1/payment', paymentRouter);
 app.use('/api/v1/order', ordersRouter);
 app.use('/api/v1/track', trackRouter);
-app.use('/api/v1/notify', notifyRouter);
+app.use('/api/v1/notification', notifyRouter);
 
 // add notfound and errorhandler middlewares
 app.use(ErrorHandlerMiddleware);

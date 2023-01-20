@@ -13,6 +13,9 @@ const NotificationSchema = new mongoose.Schema({
     currency:{
         type: String
     },
+    options: {
+        type: [String]
+    },
     email:{
         type: String
     },
@@ -25,12 +28,16 @@ const NotificationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'failed', 'paid', 'delivered', 'cancelled']
+        enum: ['pending', 'failed', 'paid', 'delivered', 'cancelled', 'success']
     },
     user: {
         type: mongoose.Types.ObjectId,
         ref: "User",
         required: true
+    },
+    sentBy: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
     }
 })
 
