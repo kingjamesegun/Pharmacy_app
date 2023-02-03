@@ -1,0 +1,5 @@
+Users should be able to book  appointments with pharmacists
+
+use lodash to convert searched categories
+
+How to add doctors(format), getting lists of doctors
